@@ -40,17 +40,19 @@ export function TextEditor({
   onTextColorChange,
 }: TextEditorProps) {
   return (
-    <div className="space-y-8 bg-white/10 p-4 rounded-3xl">
-      <section className="space-y-4">
-        <h2 className="text-lg font-medium">Text Overlay</h2>
+    <div className="space-y-10 bg-white/10 p-4 h-screen overflow-hidden rounded-3xl">
+      <section className="flex overflow-y-auto flex-col h-screen justify-evenly">
+        <h2 className="text-lg text-center border-b border-neutral-100 pb-4 font-medium">
+          Text Overlay
+        </h2>
 
-        <div className="space-y-2">
+        <div className="space-y-2 ">
           <Label htmlFor="heading">Heading</Label>
           <Input
             id="heading"
             value={heading}
             onChange={(e) => onHeadingChange(e.target.value)}
-            className="bg-transparent"
+            className="bg-white/20 border-0"
           />
         </div>
 
@@ -60,7 +62,7 @@ export function TextEditor({
             id="subheading"
             value={subheading}
             onChange={(e) => onSubheadingChange(e.target.value)}
-            className="bg-transparent"
+            className="bg-white/20 border-0"
           />
         </div>
 
@@ -92,17 +94,23 @@ export function TextEditor({
           <div className="space-y-2">
             <Label>Text colour</Label>
             <div className="flex items-center gap-2">
-              <input
-                aria-label="Text colour"
-                type="color"
-                value={textColor}
-                onChange={(e) => onTextColorChange(e.target.value)}
-                className="h-9 w-12 bg-transparent border border-white/20 rounded cursor-pointer"
-              />
+              <div className="relative">
+                <input
+                  aria-label="Text colour"
+                  type="color"
+                  value={textColor}
+                  onChange={(e) => onTextColorChange(e.target.value)}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div
+                  className="h-9 w-9 rounded-full border-2 border-white/20 cursor-pointer"
+                  style={{ backgroundColor: textColor }}
+                />
+              </div>
               <Input
                 value={textColor}
                 onChange={(e) => onTextColorChange(e.target.value)}
-                className="bg-transparent text-xs"
+                className="bg-white/20 border-0 text-xs"
               />
             </div>
           </div>

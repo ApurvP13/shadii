@@ -50,25 +50,33 @@ export function ShaderEditor({
   onCopyConfig,
 }: ShaderEditorProps) {
   return (
-    <div className="space-y-8 bg-white/10 p-4 rounded-3xl">
-      <section className="space-y-4">
-        <h2 className="text-lg font-medium">Background</h2>
+    <div className="bg-white/10 p-4 pr-0 h-screen rounded-3xl overflow-hidden">
+      <section className="h-full overflow-y-auto flex flex-col justify-evenly gap-8 pr-2">
+        <h2 className="text-lg text-center border-b border-neutral-100 pb-4 font-medium">
+          Background
+        </h2>
 
         <div className="space-y-2">
           <Label htmlFor="bg">Background colour</Label>
-          <div className="flex flex-col gap-2">
-            <input
-              id="bg"
-              aria-label="Background colour"
-              type="color"
-              value={backgroundColor}
-              onChange={(e) => onBackgroundColorChange(e.target.value)}
-              className="h-9 w-full bg-transparent border border-white/20 rounded cursor-pointer"
-            />
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <input
+                id="bg"
+                aria-label="Background colour"
+                type="color"
+                value={backgroundColor}
+                onChange={(e) => onBackgroundColorChange(e.target.value)}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div
+                className="h-9 w-9 rounded-full border-2 border-white/20 cursor-pointer"
+                style={{ backgroundColor: backgroundColor }}
+              />
+            </div>
             <Input
               value={backgroundColor}
               onChange={(e) => onBackgroundColorChange(e.target.value)}
-              className="bg-transparent text-xs"
+              className="bg-white/20 border-0 text-xs"
             />
           </div>
         </div>
@@ -89,31 +97,35 @@ export function ShaderEditor({
           </div>
           <div className="space-y-2">
             {baseColors.map((c, i) => (
-              <div key={`base-${i}`} className="flex flex-col gap-2">
-                <input
-                  aria-label={`Base colour ${i + 1}`}
-                  type="color"
-                  value={c}
-                  onChange={(e) => onUpdateColor("base", i, e.target.value)}
-                  className="h-8 w-full bg-transparent border border-white/20 rounded cursor-pointer"
-                />
-                <div className="flex gap-1">
-                  <Input
+              <div key={`base-${i}`} className="flex items-center gap-2">
+                <div className="relative">
+                  <input
+                    aria-label={`Base colour ${i + 1}`}
+                    type="color"
                     value={c}
                     onChange={(e) => onUpdateColor("base", i, e.target.value)}
-                    className="bg-transparent text-xs flex-1"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onRemoveColor("base", i)}
-                    disabled={baseColors.length <= 3}
-                    aria-label={`Remove base colour ${i + 1}`}
-                    className="px-2 text-xs"
-                  >
-                    ×
-                  </Button>
+                  <div
+                    className="h-8 w-8 rounded-full border-2 border-white/20 cursor-pointer flex-shrink-0"
+                    style={{ backgroundColor: c }}
+                  />
                 </div>
+                <Input
+                  value={c}
+                  onChange={(e) => onUpdateColor("base", i, e.target.value)}
+                  className="bg-white/20 border-0 text-xs flex-1"
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onRemoveColor("base", i)}
+                  disabled={baseColors.length <= 3}
+                  aria-label={`Remove base colour ${i + 1}`}
+                  className="px-2 text-xs flex-shrink-0"
+                >
+                  ×
+                </Button>
               </div>
             ))}
           </div>
@@ -135,33 +147,37 @@ export function ShaderEditor({
           </div>
           <div className="space-y-2">
             {overlayColors.map((c, i) => (
-              <div key={`overlay-${i}`} className="flex flex-col gap-2">
-                <input
-                  aria-label={`Overlay colour ${i + 1}`}
-                  type="color"
-                  value={c}
-                  onChange={(e) => onUpdateColor("overlay", i, e.target.value)}
-                  className="h-8 w-full bg-transparent border border-white/20 rounded cursor-pointer"
-                />
-                <div className="flex gap-1">
-                  <Input
+              <div key={`overlay-${i}`} className="flex items-center gap-2">
+                <div className="relative">
+                  <input
+                    aria-label={`Overlay colour ${i + 1}`}
+                    type="color"
                     value={c}
                     onChange={(e) =>
                       onUpdateColor("overlay", i, e.target.value)
                     }
-                    className="bg-transparent text-xs flex-1"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onRemoveColor("overlay", i)}
-                    disabled={overlayColors.length <= 3}
-                    aria-label={`Remove overlay colour ${i + 1}`}
-                    className="px-2 text-xs"
-                  >
-                    ×
-                  </Button>
+                  <div
+                    className="h-8 w-8 rounded-full border-2 border-white/20 cursor-pointer flex-shrink-0"
+                    style={{ backgroundColor: c }}
+                  />
                 </div>
+                <Input
+                  value={c}
+                  onChange={(e) => onUpdateColor("overlay", i, e.target.value)}
+                  className="bg-white/20 border-0 text-xs flex-1"
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onRemoveColor("overlay", i)}
+                  disabled={overlayColors.length <= 3}
+                  aria-label={`Remove overlay colour ${i + 1}`}
+                  className="px-2 text-xs flex-shrink-0"
+                >
+                  ×
+                </Button>
               </div>
             ))}
           </div>
