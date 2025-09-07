@@ -6,7 +6,17 @@ import { cn } from "@/lib/utils";
 import { TextEditor } from "@/components/text-editor";
 import { ShaderEditor } from "@/components/shader-editor";
 
-type Align = "left" | "center" | "right";
+type GridPosition =
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "center-left"
+  | "center-center"
+  | "center-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right";
+
 type FontChoice = "sans" | "serif";
 
 const PRESET_PALETTES: string[][] = [
@@ -42,23 +52,56 @@ export default function HeroEditorPage() {
   const [subheading, setSubheading] = useState<string>(
     "Tweak colours, motion, and typography in real-time."
   );
-  const [align, setAlign] = useState<Align>("left");
+  const [badgeText, setBadgeText] = useState<string>("Live Shader Preview");
+  const [position, setPosition] = useState<GridPosition>("center-left");
   const [font, setFont] = useState<FontChoice>("sans");
   const [headingSize, setHeadingSize] = useState<number>(48); // px
   const [subSize, setSubSize] = useState<number>(14); // px
   const [textColor, setTextColor] = useState<string>("#ffffff");
+  const [snapToGrid, setSnapToGrid] = useState<boolean>(true);
 
-  // Derived alignment classes
-  const alignClass = useMemo(() => {
-    switch (align) {
+  // Toggle states for text elements
+  const [showSubheading, setShowSubheading] = useState<boolean>(true);
+  const [showBadge, setShowBadge] = useState<boolean>(true);
+
+  // Derived positioning classes based on grid position
+  const positionClasses = useMemo(() => {
+    const [vertical, horizontal] = position.split("-");
+
+    let containerClasses = " p-6 md:p-10 flex ";
+    let textClasses = "";
+
+    // Vertical alignment
+    switch (vertical) {
+      case "top":
+        containerClasses += "items-start ";
+        break;
       case "center":
-        return "items-start justify-center text-center";
-      case "right":
-        return "items-start justify-end text-right";
-      default:
-        return "items-start justify-start text-left";
+        containerClasses += "items-center ";
+        break;
+      case "bottom":
+        containerClasses += "items-end ";
+        break;
     }
-  }, [align]);
+
+    // Horizontal alignment
+    switch (horizontal) {
+      case "left":
+        containerClasses += "justify-start ";
+        textClasses += "text-left ";
+        break;
+      case "center":
+        containerClasses += "justify-center ";
+        textClasses += "text-center ";
+        break;
+      case "right":
+        containerClasses += "justify-end ";
+        textClasses += "text-right ";
+        break;
+    }
+
+    return { containerClasses, textClasses };
+  }, [position]);
 
   const headingFontClass = font === "serif" ? "instrument" : "font-sans";
 
@@ -121,11 +164,15 @@ export default function HeroEditorPage() {
       text: {
         heading,
         subheading,
-        align,
+        badgeText,
+        position,
         font,
         headingSize,
         subSize,
         textColor,
+        showSubheading,
+        showBadge,
+        snapToGrid,
       },
     };
     const txt = JSON.stringify(config, null, 2);
@@ -140,18 +187,26 @@ export default function HeroEditorPage() {
           <TextEditor
             heading={heading}
             subheading={subheading}
-            align={align}
+            badgeText={badgeText}
+            position={position}
             font={font}
             headingSize={headingSize}
             subSize={subSize}
             textColor={textColor}
+            showSubheading={showSubheading}
+            showBadge={showBadge}
+            snapToGrid={snapToGrid}
             onHeadingChange={setHeading}
             onSubheadingChange={setSubheading}
-            onAlignChange={setAlign}
+            onBadgeTextChange={setBadgeText}
+            onPositionChange={setPosition}
             onFontChange={setFont}
             onHeadingSizeChange={setHeadingSize}
             onSubSizeChange={setSubSize}
             onTextColorChange={setTextColor}
+            onShowSubheadingChange={setShowSubheading}
+            onShowBadgeChange={setShowBadge}
+            onSnapToGridChange={setSnapToGrid}
           />
         </aside>
 
@@ -167,11 +222,10 @@ export default function HeroEditorPage() {
               wireframe={wireframe}
               overlayOpacity={overlayOpacity}
               backgroundColor={backgroundColor}
+              containerClassName={positionClasses.containerClasses}
             >
-              <div
-                className={cn("absolute inset-0 p-6 md:p-10 flex", alignClass)}
-              >
-                <div className="max-w-xl ">
+              <div className={cn("max-w-xl", positionClasses.textClasses)}>
+                {showBadge && (
                   <div
                     className={cn(
                       "inline-flex items-center px-3 py-1 rounded-full bg-white/5 backdrop-blur-sm mb-4 relative"
@@ -182,23 +236,26 @@ export default function HeroEditorPage() {
                   >
                     <div className="absolute top-0 left-1 right-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full" />
                     <span className="text-white/90 text-xs font-light relative z-10">
-                      Live Shader Preview
+                      {badgeText}
                     </span>
                   </div>
+                )}
 
-                  <h1
-                    className={cn(
-                      "tracking-tight  font-light mb-3",
-                      headingFontClass
-                    )}
-                    style={{
-                      fontSize: `${headingSize}px`,
-                      color: textColor,
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    {heading}
-                  </h1>
+                <h1
+                  className={cn(
+                    "tracking-tight font-light mb-3",
+                    headingFontClass
+                  )}
+                  style={{
+                    fontSize: `${headingSize}px`,
+                    color: textColor,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {heading}
+                </h1>
+
+                {showSubheading && (
                   <p
                     className="font-light"
                     style={{
@@ -208,7 +265,7 @@ export default function HeroEditorPage() {
                   >
                     {subheading}
                   </p>
-                </div>
+                )}
               </div>
             </ShaderPreview>
           </div>

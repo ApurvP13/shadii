@@ -12,6 +12,7 @@ type ShaderPreviewProps = {
   wireframe: boolean;
   overlayOpacity: number;
   backgroundColor: string;
+  containerClassName?: string;
   children?: React.ReactNode;
 };
 
@@ -24,6 +25,7 @@ export default function ShaderPreview({
   wireframe,
   overlayOpacity,
   backgroundColor,
+  containerClassName,
   children,
 }: ShaderPreviewProps) {
   return (
@@ -44,8 +46,17 @@ export default function ShaderPreview({
         backgroundColor="transparent"
         style={{ opacity: overlayOpacity }}
       />
-      {/* Overlay children (text, controls portals, etc.) */}
-      <div className="relative z-10">{children}</div>
+      {/* Overlay children (text, controls portals, etc.) with positioning */}
+      <div
+        className={[
+          "absolute inset-0 z-10", // Add absolute and inset-0 to fill parent
+          containerClassName,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {children}
+      </div>
     </div>
   );
 }
