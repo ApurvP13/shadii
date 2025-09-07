@@ -17,7 +17,29 @@ type GridPosition =
   | "bottom-center"
   | "bottom-right";
 
-type FontChoice = "sans" | "serif";
+const fontClassMap = {
+  sans: "font-sans",
+  mono: "font-mono",
+  instrument: "font-instrument",
+  onest: "font-onest",
+  inter: "font-inter",
+  space: "font-space",
+  man: "font-man",
+} as const;
+
+type FontChoice =
+  | "sans"
+  | "mono"
+  | "instrument"
+  | "onest"
+  | "inter"
+  | "space"
+  | "man";
+
+type FontState = {
+  heading: FontChoice;
+  subheading: FontChoice;
+};
 
 const PRESET_PALETTES: string[][] = [
   // 3-5 colours each to follow the colour-system rules
@@ -54,7 +76,10 @@ export default function HeroEditorPage() {
   );
   const [badgeText, setBadgeText] = useState<string>("Live Shader Preview");
   const [position, setPosition] = useState<GridPosition>("center-left");
-  const [font, setFont] = useState<FontChoice>("sans");
+  const [font, setFont] = useState<FontState>({
+    heading: "sans",
+    subheading: "sans",
+  });
   const [headingSize, setHeadingSize] = useState<number>(48); // px
   const [subSize, setSubSize] = useState<number>(14); // px
   const [textColor, setTextColor] = useState<string>("#ffffff");
@@ -102,8 +127,6 @@ export default function HeroEditorPage() {
 
     return { containerClasses, textClasses };
   }, [position]);
-
-  const headingFontClass = font === "serif" ? "instrument" : "font-sans";
 
   // Shader control functions
   function randomizePalette() {
@@ -235,7 +258,7 @@ export default function HeroEditorPage() {
                     }}
                   >
                     <div className="absolute top-0 left-1 right-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full" />
-                    <span className="text-white/90 text-xs font-light relative z-10">
+                    <span className="text-white/90  text-xs font-light relative z-10">
                       {badgeText}
                     </span>
                   </div>
@@ -244,7 +267,7 @@ export default function HeroEditorPage() {
                 <h1
                   className={cn(
                     "tracking-tight font-light mb-3",
-                    headingFontClass
+                    fontClassMap[font.heading]
                   )}
                   style={{
                     fontSize: `${headingSize}px`,
@@ -257,7 +280,7 @@ export default function HeroEditorPage() {
 
                 {showSubheading && (
                   <p
-                    className="font-light"
+                    className={cn("font-light", fontClassMap[font.subheading])}
                     style={{
                       fontSize: `${subSize}px`,
                       color: textColor + "cc",

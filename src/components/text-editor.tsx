@@ -17,14 +17,26 @@ type GridPosition =
   | "bottom-center"
   | "bottom-right";
 
-type FontChoice = "sans" | "serif";
+type FontChoice =
+  | "sans"
+  | "mono"
+  | "instrument"
+  | "onest"
+  | "inter"
+  | "space"
+  | "man";
+
+type FontState = {
+  heading: FontChoice;
+  subheading: FontChoice;
+};
 
 interface TextEditorProps {
   heading: string;
   subheading: string;
   badgeText: string;
   position: GridPosition;
-  font: FontChoice;
+  font: FontState;
   headingSize: number;
   subSize: number;
   textColor: string;
@@ -35,7 +47,7 @@ interface TextEditorProps {
   onSubheadingChange: (value: string) => void;
   onBadgeTextChange: (value: string) => void;
   onPositionChange: (value: GridPosition) => void;
-  onFontChange: (value: FontChoice) => void;
+  onFontChange: (value: FontState) => void;
   onHeadingSizeChange: (value: number) => void;
   onSubSizeChange: (value: number) => void;
   onTextColorChange: (value: string) => void;
@@ -117,6 +129,30 @@ export function TextEditor({
           />
         </div>
 
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <Label>Heading Font</Label>
+            <select
+              value={font.heading}
+              onChange={(e) =>
+                onFontChange({
+                  ...font,
+                  heading: e.target.value as FontChoice,
+                })
+              }
+              className="w-full bg-white/10 border border-white/20 rounded-md px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+            >
+              <option value="sans">Geist Sansf</option>
+              <option value="mono">Geist Mono</option>
+              <option value="instrument">Instrument Serif</option>
+              <option value="onest">Onest</option>
+              <option value="inter">Inter</option>
+              <option value="space">Space Mono</option>
+              <option value="man">Manrope</option>
+            </select>
+          </div>
+        </div>
+
         {showBadge ? (
           <div className="space-y-4 p-3 rounded-lg border border-white/10 bg-white/5">
             <div className="flex items-center justify-between">
@@ -192,6 +228,32 @@ export function TextEditor({
             <Plus size={16} className="mr-2" />
             Add Subheading
           </Button>
+        )}
+
+        {showSubheading && (
+          <div className="space-y-3">
+            <div className="space-y-2">
+              <Label>Subheading Font</Label>
+              <select
+                value={font.subheading}
+                onChange={(e) =>
+                  onFontChange({
+                    ...font,
+                    subheading: e.target.value as FontChoice,
+                  })
+                }
+                className="w-full bg-white/10 border border-white/20 rounded-md px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              >
+                <option value="sans">Geist Sansf</option>
+                <option value="mono">Geist Mono</option>
+                <option value="instrument">Instrument Serif</option>
+                <option value="onest">Onest</option>
+                <option value="inter">Inter</option>
+                <option value="space">Space Mono</option>
+                <option value="man">Manrope</option>
+              </select>
+            </div>
+          </div>
         )}
 
         <div className="space-y-3">
@@ -281,32 +343,6 @@ export function TextEditor({
             {/* Current position label */}
             <div className="text-xs text-white/70 text-center">
               {GRID_POSITIONS.find((p) => p.position === position)?.label}
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          <div className="space-y-2">
-            <Label>Font</Label>
-            <div className="flex flex-col gap-2">
-              <Button
-                type="button"
-                variant={font === "sans" ? "default" : "secondary"}
-                size="sm"
-                onClick={() => onFontChange("sans")}
-                className="w-full"
-              >
-                Sans (Figtree)
-              </Button>
-              <Button
-                type="button"
-                variant={font === "serif" ? "default" : "secondary"}
-                size="sm"
-                onClick={() => onFontChange("serif")}
-                className="w-full"
-              >
-                Serif (Instrument)
-              </Button>
             </div>
           </div>
         </div>
