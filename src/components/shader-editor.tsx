@@ -26,8 +26,6 @@ interface ShaderEditorProps {
     index: number,
     value: string
   ) => void;
-  onRandomizePalette: () => void;
-  onCopyConfig: () => void;
 }
 
 export function ShaderEditor({
@@ -46,8 +44,6 @@ export function ShaderEditor({
   onAddColor,
   onRemoveColor,
   onUpdateColor,
-  onRandomizePalette,
-  onCopyConfig,
 }: ShaderEditorProps) {
   return (
     <div className="bg-white/10 p-4 pr-0 h-screen rounded-3xl overflow-hidden">
@@ -240,15 +236,6 @@ export function ShaderEditor({
               Current: {overlayOpacity.toFixed(2)}
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Button onClick={onRandomizePalette} variant="default" size="sm">
-            Randomize palette
-          </Button>
-          <Button onClick={onCopyConfig} variant="secondary" size="sm">
-            Copy JSON config
-          </Button>
         </div>
       </section>
     </div>

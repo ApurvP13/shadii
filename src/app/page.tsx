@@ -5,6 +5,7 @@ import ShaderPreview from "@/components/shader-preview";
 import { cn } from "@/lib/utils";
 import { TextEditor } from "@/components/text-editor";
 import { ShaderEditor } from "@/components/shader-editor";
+import { FixedToolbar } from "@/components/fixed-toolbar";
 
 type GridPosition =
   | "top-left"
@@ -42,12 +43,39 @@ type FontState = {
 };
 
 const PRESET_PALETTES: string[][] = [
-  // 3-5 colours each to follow the colour-system rules
+  // Original 5
   ["#000000", "#8b5cf6", "#ffffff", "#1e1b4b", "#4c1d95"], // violet night
   ["#000000", "#00e5ff", "#00ffaa", "#ffffff"], // neon cyan/green on black
   ["#000000", "#ff6b00", "#ffd166", "#ffffff"], // warm amber/orange
   ["#000000", "#7dd3fc", "#38bdf8", "#ffffff"], // cool blue/cyan
   ["#000000", "#f43f5e", "#ffffff", "#0ea5e9"], // red/blue pop
+
+  // New 20 palettes
+  ["#1a1a1a", "#ff0080", "#ff4081", "#ffffff", "#8e24aa"], // hot pink electric
+  ["#0a0a0a", "#00ff87", "#39ff14", "#ffffff"], // matrix green
+  ["#000000", "#ffa726", "#ffcc02", "#ff8f00", "#ffffff"], // sunset gold
+  ["#1e1e2e", "#89b4fa", "#74c7ec", "#ffffff"], // catppuccin blue
+  ["#000000", "#a855f7", "#c084fc", "#e879f9", "#ffffff"], // purple gradient
+  ["#0f0f0f", "#ef4444", "#dc2626", "#ffffff"], // blood red minimal
+  ["#000000", "#10b981", "#059669", "#34d399", "#ffffff"], // emerald forest
+  ["#1a1a1a", "#f59e0b", "#d97706", "#ffffff"], // amber fire
+  ["#000000", "#06b6d4", "#0891b2", "#67e8f9", "#ffffff"], // tropical cyan
+  ["#0d1117", "#58a6ff", "#1f6feb", "#ffffff"], // github blue
+  ["#000000", "#ec4899", "#be185d", "#f9a8d4", "#ffffff"], // magenta bloom
+  ["#1a1a1a", "#84cc16", "#65a30d", "#ffffff"], // lime electric
+  ["#000000", "#f97316", "#ea580c", "#fed7aa", "#ffffff"], // tangerine dream
+  ["#0a0a0a", "#8b5cf6", "#7c3aed", "#c4b5fd", "#ffffff"], // violet storm
+  ["#000000", "#06b6d4", "#f43f5e", "#ffffff"], // cyan pink contrast
+  ["#1e1e1e", "#facc15", "#eab308", "#ffffff"], // electric yellow
+  ["#000000", "#14b8a6", "#0d9488", "#5eead4", "#ffffff"], // teal ocean
+  ["#0f0f0f", "#f472b6", "#ec4899", "#ffffff"], // bubblegum pink
+  ["#000000", "#6366f1", "#4f46e5", "#a5b4fc", "#ffffff"], // indigo wave
+  ["#1a1a1a", "#22d3ee", "#0891b2", "#ffffff"], // sky bright
+  ["#000000", "#dc2626", "#991b1b", "#fca5a5", "#ffffff"], // crimson red
+  ["#0a0a0a", "#9333ea", "#7c2d12", "#ffffff"], // purple brown
+  ["#000000", "#059669", "#047857", "#6ee7b7", "#ffffff"], // forest green
+  ["#1e1e1e", "#fb7185", "#e11d48", "#ffffff"], // rose pink
+  ["#000000", "#0284c7", "#0369a1", "#7dd3fc", "#ffffff"], // ocean blue
 ];
 
 function clamp01(n: number) {
@@ -171,6 +199,10 @@ export default function HeroEditorPage() {
     } else {
       setOverlayColors(overlayColors.map((c, i) => (i === index ? value : c)));
     }
+  }
+
+  function handleDownload() {
+    console.log("downloaded");
   }
 
   function copyConfig() {
@@ -316,11 +348,14 @@ export default function HeroEditorPage() {
             onAddColor={addColor}
             onRemoveColor={removeColor}
             onUpdateColor={updateColor}
-            onRandomizePalette={randomizePalette}
-            onCopyConfig={copyConfig}
           />
         </aside>
       </div>
+      <FixedToolbar
+        onCopyConfig={copyConfig}
+        onDownload={handleDownload}
+        Randomise={randomizePalette}
+      />
     </div>
   );
 }
