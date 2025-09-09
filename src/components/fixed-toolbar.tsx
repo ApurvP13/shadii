@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Copy, Download, Github, Dices } from "lucide-react";
+import Image from "next/image";
 
 interface FixedToolbarProps {
   onCopyConfig: () => void;
@@ -39,6 +40,15 @@ export function FixedToolbar({
     <TooltipProvider>
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
         <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-4xl px-4 py-3 shadow-2xl">
+          <Image
+            src="/logo.png" // path relative to the /public folder
+            alt="Logo"
+            width={40} // required: specify width
+            height={40} // required: specify height
+            priority // optional: preloads the image for faster load
+            className="rounded-lg"
+          />
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -129,7 +139,7 @@ export function FixedToolbar({
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>View on GitHub</p>
+              <p>Star on GitHub</p>
             </TooltipContent>
           </Tooltip>
         </div>
