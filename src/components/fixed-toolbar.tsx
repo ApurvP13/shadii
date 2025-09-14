@@ -22,7 +22,7 @@ export function FixedToolbar({
 }: FixedToolbarProps) {
   const handleShareOnX = () => {
     const text =
-      "Check out this amazing hero section I created with live shader preview!";
+      "Check out ShadII - A beautiful shader gradient generator tool";
     const url = window.location.href;
     window.open(
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -85,7 +85,7 @@ export function FixedToolbar({
 
           <Separator orientation="vertical" className="h-6 bg-white/20" />
 
-          <Tooltip>
+          {/* <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
@@ -99,7 +99,7 @@ export function FixedToolbar({
             <TooltipContent>
               <p>Download Render</p>
             </TooltipContent>
-          </Tooltip>
+          </Tooltip> */}
 
           <Separator orientation="vertical" className="h-6 bg-white/20" />
 

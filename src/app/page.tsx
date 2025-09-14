@@ -98,12 +98,12 @@ export default function HeroEditorPage() {
   const [overlayOpacity, setOverlayOpacity] = useState<number>(0.6);
 
   // Text state
-  const [heading, setHeading] = useState<string>("Design your Hero");
+  const [heading, setHeading] = useState<string>("ShadII");
   const [subheading, setSubheading] = useState<string>(
     "Tweak colours, motion, and typography in real-time."
   );
-  const [badgeText, setBadgeText] = useState<string>("Live Shader Preview");
-  const [position, setPosition] = useState<GridPosition>("center-left");
+  const [badgeText, setBadgeText] = useState<string>("More Features Soon");
+  const [position, setPosition] = useState<GridPosition>("center-center");
   const [font, setFont] = useState<FontState>({
     heading: "sans",
     subheading: "sans",
