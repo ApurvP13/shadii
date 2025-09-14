@@ -35,7 +35,7 @@ export default function ShaderPreview({
         className="absolute inset-0 w-full h-full"
         colors={baseColors}
         speed={baseSpeed}
-        backgroundColor={backgroundColor}
+        // backgroundColor={backgroundColor}
       />
       {/* Overlay gradient */}
       <MeshGradient
@@ -43,7 +43,7 @@ export default function ShaderPreview({
         colors={overlayColors}
         speed={overlaySpeed}
         {...(wireframe ? { wireframe: "true" as const } : {})}
-        backgroundColor="transparent"
+        // backgroundColor="transparent"
         style={{ opacity: overlayOpacity }}
       />
       {/* Overlay children (text, controls portals, etc.) with positioning */}
